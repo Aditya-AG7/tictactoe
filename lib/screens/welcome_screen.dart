@@ -9,19 +9,36 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: kColor1,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage('images/tictactoe-logo.jpeg'),
-              semanticLabel: 'Tic Tac Toe Logo',
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: kColor1,
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [kColor1, kShadowColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            SizedBox(height: 150),
-            PlayButton(),
-          ],
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: const Image(
+                      image: AssetImage('images/tictactoe-logo.jpeg'),
+                      semanticLabel: 'Tic Tac Toe Logo',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 150),
+                const PlayButton(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -38,7 +55,7 @@ class PlayButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushNamed(context, GameScreen.id);
       },
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -46,8 +63,8 @@ class PlayButton extends StatelessWidget {
             'PLAY',
             style: kPlayButtonTextStyle,
           ),
-          SizedBox(width: 8),
-          Icon(
+          const SizedBox(width: 8),
+          const Icon(
             Icons.arrow_forward_ios,
             size: 40,
             color: kColor3,
