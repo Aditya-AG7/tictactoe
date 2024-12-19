@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tictactoe/constants.dart';
 import 'package:tictactoe/screens/game_screen.dart';
 import 'package:tictactoe/screens/welcome_screen.dart';
@@ -11,17 +12,27 @@ class WinnerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final winner = ModalRoute.of(context)?.settings.arguments as String?;
-    final isDraw = winner == null;
+    final isDraw = (winner == "Draw");
 
-    return Scaffold(
-      backgroundColor: kColor1,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _winnerMessage(isDraw, winner),
-          const SizedBox(height: 100),
-          _actionButtons(context),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [kColor1, kShadowColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _winnerMessage(isDraw, winner),
+              const SizedBox(height: 100),
+              _actionButtons(context),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -29,32 +40,31 @@ class WinnerScreen extends StatelessWidget {
   Widget _winnerMessage(bool isDraw, String? winner) {
     return Center(
       child: isDraw
-          ? const Text(
+          ? Text(
               "Draw 😔",
-              style: TextStyle(
-                color: Colors.white60,
+              style: GoogleFonts.baloo2(
+                color: Colors.white70,
                 fontWeight: FontWeight.bold,
-                fontSize: 50,
+                fontSize: 60,
               ),
             )
           : RichText(
               text: TextSpan(
-                style: const TextStyle(
-                  fontSize: 50,
+                style: GoogleFonts.baloo2(
                   fontWeight: FontWeight.bold,
                 ),
                 children: [
                   TextSpan(
                     text: "$winner",
                     style: TextStyle(
+                      fontSize: 70,
                       color: winner == "X" ? kColor2 : kColor3,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const TextSpan(
                     text: " Wins!!",
-                    style: TextStyle(
-                      color: Colors.white60,
-                    ),
+                    style: TextStyle(color: Colors.white60, fontSize: 60),
                   ),
                 ],
               ),
@@ -69,13 +79,21 @@ class WinnerScreen extends StatelessWidget {
         _NavigationButton(
           icon: Icons.home,
           onTap: () => Navigator.popUntil(
-              context, ModalRoute.withName(WelcomeScreen.id)),
+            context,
+            ModalRoute.withName(WelcomeScreen.id),
+          ),
         ),
         const SizedBox(width: 40),
         _NavigationButton(
           icon: Icons.refresh_rounded,
-          onTap: () => Navigator.pushReplacementNamed(context, GameScreen.id),
-        )
+          onTap: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              GameScreen.id,
+              ModalRoute.withName(WelcomeScreen.id),
+            );
+          },
+        ),
       ],
     );
   }
@@ -88,22 +106,16 @@ class _NavigationButton extends StatelessWidget {
   const _NavigationButton({
     required this.icon,
     required this.onTap,
-    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      color: Colors.white60,
-      minWidth: 40,
-      height: 70,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+    return ElevatedButton(
+      style: kButtonStyle,
       onPressed: onTap,
       child: Icon(
         icon,
-        color: kColor1,
+        color: Colors.white60,
         size: 40,
       ),
     );
