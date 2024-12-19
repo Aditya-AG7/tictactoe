@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tictactoe/constants.dart';
 import 'package:tictactoe/screens/winner_screen.dart';
 
@@ -37,16 +38,26 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kColor1,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _headerText(),
-            const SizedBox(height: 35),
-            _gameContainer(),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [kColor1, kShadowColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _headerText(),
+                const SizedBox(height: 35),
+                _gameContainer(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -102,19 +113,24 @@ class _GameScreenState extends State<GameScreen> {
   Widget _headerText() {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.5,
-        ),
         children: [
           TextSpan(
             text: currentPlayer,
-            style: TextStyle(color: playerColor),
+            style: GoogleFonts.baloo2(
+              color: playerColor,
+              fontSize: 60,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text: "'s turn",
-            style: TextStyle(color: Colors.white),
+            style: GoogleFonts.baloo2(
+              color: Colors.white,
+              fontSize: 50,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.bold,
+            ),
           )
         ],
       ),
@@ -152,20 +168,23 @@ class _GameScreenState extends State<GameScreen> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: kColor1,
+          gradient: const LinearGradient(
+            colors: [kColor1, kShadowColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           border: Border.all(
             color: Colors.white38,
             width: 3,
           ),
         ),
-        // foregroundDecoration: ,
         margin: const EdgeInsets.all(5),
         child: Center(
           child: Text(
             occupied[index],
-            style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.w500,
+            style: GoogleFonts.baloo2(
+              fontSize: 80,
+              fontWeight: FontWeight.w900,
               color: boxColors[index],
             ),
           ),
